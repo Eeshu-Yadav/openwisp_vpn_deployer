@@ -3,13 +3,11 @@ import json
 import websockets
 from dotenv import load_dotenv
 import os
-
 from wireguard.handler import handle_wireguard_update
 from openvpn.handler import handle_openvpn_update
 from zerotier.handler import handle_zerotier_update
 from vxlan_wireguard.handler import handle_vxlan_wireguard_update
 
-# Load environment variables
 load_dotenv()
 WEBSOCKET_URL = os.getenv("WEBSOCKET_URL", "wss://openwisp.example.com/ws/vpn-updates/")
 
