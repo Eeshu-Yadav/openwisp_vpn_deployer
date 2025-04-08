@@ -47,16 +47,13 @@ def save_config_file(config, filename="setup_config.json"):
 def interactive_setup():
     print("\n🔧 Welcome to the OpenWISP VPN Deployer CLI Setup Utility\n")
 
-    # 1. API Token input (or use from .env if present)
     api_token = os.getenv("API_TOKEN")
     if not api_token:
         api_token = getpass("🔑 Enter your OpenWISP API Token (input hidden): ")
 
-    # 2. OpenWISP API URL (with default from .env or fallback)
     default_api_url = os.getenv("OPENWISP_API_URL", "http://localhost:8000/api/v1")
     api_url = input(f"🌐 Enter OpenWISP API URL [{default_api_url}]: ") or default_api_url
 
-    # 3. Fetch available VPN servers from OpenWISP
     print("\n📡 Fetching available VPN servers from OpenWISP...")
     servers = fetch_vpn_servers(api_url, api_token)
     if servers:
@@ -66,7 +63,6 @@ def interactive_setup():
     else:
         print("⚠️ No VPN servers found or error fetching servers.")
 
-    # 4. Select VPN technology
     print("\n🛠️ Select VPN technology to deploy:")
     print("  1. OpenVPN")
     print("  2. WireGuard")
@@ -85,7 +81,6 @@ def interactive_setup():
         print("❌ Invalid choice. Exiting setup.")
         sys.exit(1)
 
-    # 5. Perform dependency checks
     print("\n🔍 Performing dependency checks...")
     if vpn_choice == "openvpn":
         check_dependency("openvpn")
@@ -94,7 +89,6 @@ def interactive_setup():
     elif vpn_choice == "zerotier":
         check_dependency("zerotier-cli")
 
-    # 6. Save configuration
     config = {
         "api_token": api_token,
         "api_url": api_url,
@@ -103,12 +97,16 @@ def interactive_setup():
     save_config_file(config)
     print("\n✅ Setup completed successfully. You can now use the OpenWISP VPN Deployer.\n")
 
-def main():
+def parse_cli_arguments(argv=None):
     parser = argparse.ArgumentParser(description="OpenWISP VPN Deployer CLI Setup Utility")
     parser.add_argument("--setup", action="store_true", help="Run interactive setup")
     parser.add_argument("--show-config", action="store_true", help="Show saved configuration")
+    parser.add_argument("--tech", type=str, help="Specify VPN technology")
+    parser.add_argument("--token", type=str, help="Specify API token")
+    return parser.parse_args(argv)
 
-    args = parser.parse_args()
+def main():
+    args = parse_cli_arguments()
 
     if args.setup:
         interactive_setup()
@@ -120,7 +118,7 @@ def main():
         except Exception as e:
             print("❌ Error reading configuration:", e)
     else:
-        parser.print_help()
+        print("ℹ️ No action specified. Use --setup or --show-config.")
 
 if __name__ == "__main__":
     main()
