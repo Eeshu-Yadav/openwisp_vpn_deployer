@@ -1,5 +1,0 @@
-{
-    "api_token": "b652d6c2f4d59820402bbdf0731e9a8f6d9f0b91",
-    "api_url": "http://localhost:8000/api/v1",
-    "vpn_choice": "wireguard"
-}
