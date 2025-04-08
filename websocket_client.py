@@ -7,10 +7,13 @@ from wireguard.handler import handle_wireguard_update
 from openvpn.handler import handle_openvpn_update
 from zerotier.handler import handle_zerotier_update
 from vxlan_wireguard.handler import handle_vxlan_wireguard_update
+from logger import get_logger
+
 
 load_dotenv()
 WEBSOCKET_URL = os.getenv("WEBSOCKET_URL", "wss://openwisp.example.com/ws/vpn-updates/")
-
+logger = get_logger("websocket_client")
+logger.info("WebSocket client started...")
 async def listen_to_vpn_updates():
     try:
         async with websockets.connect(WEBSOCKET_URL) as websocket:

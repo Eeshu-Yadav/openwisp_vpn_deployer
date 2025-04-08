@@ -1,0 +1,5 @@
+2025-04-08 13:52:36 - DEBUG - test_logger - This is a DEBUG message
+2025-04-08 13:52:36 - INFO - test_logger - This is an INFO message
+2025-04-08 13:52:36 - WARNING - test_logger - This is a WARNING message
+2025-04-08 13:52:36 - ERROR - test_logger - This is an ERROR message
+2025-04-08 13:52:36 - CRITICAL - test_logger - This is a CRITICAL message
